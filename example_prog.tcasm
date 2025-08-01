@@ -1,0 +1,33 @@
+const BOT_TURN_LEFT 0
+const BOT_MOVE_FORWARD 1
+const BOT_TURN_RIGHT 2
+const BOT_ENJOY_MOMENT 3
+const BOT_USE_ACTION 4
+const BOT_SHOOT_LASER 5
+
+
+mov BOT_TURN_LEFT, r1 # move to r1
+mov BOT_MOVE_FORWARD, r2 # move to r2
+mov BOT_TURN_RIGHT, r3
+
+# setup done, jumping to main loop
+jmp loop
+
+label action_left
+mov r1, OUT
+return
+
+label action_move
+mov r2, OUT
+return
+
+label action_right
+mov r3, OUT
+return
+   # poo
+
+label loop
+
+jmp action_right
+
+jmp loop

@@ -1,0 +1,52 @@
+#definitions
+const BOT_TURN_LEFT 0
+const BOT_MOVE_FORWARD 1
+const BOT_TURN_RIGHT 2
+const BOT_ENJOY_MOMENT 3
+const BOT_USE_ACTION 4
+const BOT_SHOOT_LASER 5
+#program
+# r0 will be reserved
+# r1: 0 (turn left)
+# r2: 1 (move forward)
+# r3: 2 (turn right)
+# Moving move set into registers:
+# immediate 0, saves to r0
+BOT_TURN_LEFT
+MOV | s0 | d1 # move to r1
+BOT_MOVE_FORWARD
+MOV | s0 | d2 # move to r2
+BOT_TURN_RIGHT
+MOV | s0 | d3
+
+# setup done, jumping to main loop
+loop
+JMP
+
+# Actions, jmp over these and then
+# jump back to each one
+label action_left
+MOV | s1 | OUT # turn left
+left_return # return
+JMP
+
+label action_move
+MOV | s2 | OUT # move forward
+move_return # return
+JMP
+
+label action_right
+MOV | s3 | OUT # turn right
+right_return # return
+JMP
+
+
+label loop # main loop
+
+# implement algorithim here
+
+action_right # temp, spin in place
+JMP
+
+loop
+JMP
