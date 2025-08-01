@@ -129,8 +129,7 @@ def implement_return(instr, call_stack):
     # <last label used>_RETURN
     # JMP
     if (not call_stack):
-        print("Error: no labels defined but return is used.")
-    print([call_stack[-1] + "_RETURN", "JMP"])
+        raise ValueError("Error: no labels defined but return is used.")
     return [call_stack[-1] + "_RETURN", "JMP"]
 
 parsed_result = []

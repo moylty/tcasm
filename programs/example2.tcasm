@@ -1,0 +1,21 @@
+# Count down from 10, when we hit zero, start outputting 42 forever.
+
+# Set r1 to an immediate value without having to clown around
+mov 10, r1
+mov 1, r2
+
+label loop
+
+# ALU instructions operate on r1, and r2 and save the result in r3
+sub
+mov r3, r1
+mov r3, OUT
+
+# Conditional jumps compare the value of r0.
+jez zero
+
+jmp loop
+
+label zero
+mov 42, OUT
+jmp zero
