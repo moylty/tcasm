@@ -1,0 +1,46 @@
+# Static setup for source and destinations of all 6 registers and I/O.
+const s0 0
+const s1 8
+const s2 16
+const s3 24
+const s4 32
+const s5 40
+
+const d0 0
+const d1 1
+const d2 2
+const d3 3
+const d4 4
+const d5 5
+
+const IN 48
+const OUT 6
+# Continuing to program...
+const BOT_TURN_LEFT 0
+const BOT_MOVE_FORWARD 1
+const BOT_TURN_RIGHT 2
+const BOT_ENJOY_MOMENT 3
+const BOT_USE_ACTION 4
+const BOT_SHOOT_LASER 5
+
+label turn_left
+MOV | BOT_TURN_LEFT | OUT
+turn_left_RETURN # this line would
+#be a return, and the converter
+# would automatically,
+# a) find the last label specified
+# b) change the line from 'return'
+# to <label_name>_RETURN
+JMP
+
+# a main loop
+label mainloop
+
+turn_left # call turn_left
+# gets converted to this plus <label_name>_RETURN
+JMP
+label turn_left_RETURN
+
+mainloop
+JMP
+

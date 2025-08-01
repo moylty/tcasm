@@ -87,28 +87,77 @@ def parse_jmp_instruction(instr):
 
     # Strip and split the instruction
     parts = instr.replace(',', '').split()
-    print(parts)
 
     if len(parts) != 2:
         raise ValueError("Expected format: 'jmp <dst>'")
 
-    return [parts[1], "JMP"]
+    return [parts[1], parts[0].upper()]
+
+def implement_call(instr):
+    # Remove comments
+    instr = instr.split('#', 1)[0].strip()
+
+    # Skip empty or comment-only lines
+    if not instr:
+        return None
+    
+    # Strip and split the instruction
+    parts = instr.replace(',', '').split()
+
+    if len(parts) != 2:
+        raise ValueError("Expected format: 'call <label>'")
+    
+    # call <label_name>
+    # -->
+    # <label_name>
+    # JMP
+    # label <label_name>_RETURN
+    return [parts[1], "JMP", "label " + parts[1] + "_RETURN"]
+
+def implement_return(instr, call_stack):
+    # Remove comments
+    instr = instr.split('#', 1)[0].strip()
+
+    # Skip empty or comment-only lines
+    if not instr:
+        return None
+    
+
+    
+    # return
+    # -->
+    # <last label used>_RETURN
+    # JMP
+    if (not call_stack):
+        print("Error: no labels defined but return is used.")
+    print([call_stack[-1] + "_RETURN", "JMP"])
+    return [call_stack[-1] + "_RETURN", "JMP"]
 
 parsed_result = []
-
+calls = []
 for line in lines:
 
     # parse mov commands
     if "mov" in line.lower()[0:3]:
         parsed_result.extend(parse_mov_instruction(line))
     # Now I need to handle jmps and returns...
-    elif "jmp" in line.lower()[0:3]:
+    elif line and "j" in line.lower()[0]:
         parsed_result.extend(parse_jmp_instruction(line))
+    elif "add" in line.lower()[0:3]:
+        parsed_result.append("ADD")
+    elif "sub" in line.lower()[0:3]:
+        parsed_result.append("SUB")
+    elif "call" in line.lower()[0:4]:
+        parsed_result.extend(implement_call(line))
+    elif "label" in line.lower()[0:5]:
+        parsed_result.append(line)
+        calls.append(line.replace(',', '').split()[1])
     elif "return" in line.lower()[0:6]:
-        parsed_result.append("# Skipping returns for now...")
+        parsed_result.extend(implement_return(line, calls))
     # pass comments and empty lines along unedited
     elif line:
         parsed_result.append(line)
+
 
 with open(sys.argv[2], 'w') as fp:
     fp.write(register_defs)
