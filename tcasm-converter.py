@@ -77,6 +77,23 @@ def parse_mov_instruction(instr):
     result = [immediate, converted_instruction]
     return result
 
+def parse_jmp_instruction(instr):
+    # Remove comments
+    instr = instr.split('#', 1)[0].strip()
+
+    # Skip empty or comment-only lines
+    if not instr:
+        return None
+
+    # Strip and split the instruction
+    parts = instr.replace(',', '').split()
+    print(parts)
+
+    if len(parts) != 2:
+        raise ValueError("Expected format: 'jmp <dst>'")
+
+    return [parts[1], "JMP"]
+
 parsed_result = []
 
 for line in lines:
@@ -85,6 +102,10 @@ for line in lines:
     if "mov" in line.lower()[0:3]:
         parsed_result.extend(parse_mov_instruction(line))
     # Now I need to handle jmps and returns...
+    elif "jmp" in line.lower()[0:3]:
+        parsed_result.extend(parse_jmp_instruction(line))
+    elif "return" in line.lower()[0:6]:
+        parsed_result.append("# Skipping returns for now...")
     # pass comments and empty lines along unedited
     elif line:
         parsed_result.append(line)
