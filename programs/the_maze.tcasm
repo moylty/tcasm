@@ -10,32 +10,26 @@ const BOT_SHOOT_LASER 5
 # Values:
 # 0: Nothing
 # 1: Wall
-# 2: 
+# 3: Door
+# 8(?): Coin 
 
-mov BOT_TURN_LEFT, r1 # move to r1
-mov BOT_MOVE_FORWARD, r2 # move to r2
-mov BOT_TURN_RIGHT, r3
 
-# setup done, jumping to main loop
-jmp loop
+# setup done, jumping to main
+jmp main
 
-label action_left
-mov r1, OUT
-return
 
-label action_move
-mov r2, OUT
-return
+label main
 
-label action_right
-mov r3, OUT
-return
-   # poo
+# first we gotta find our initial direction
+# rotate left until the bot sees 0
 
-label loop
+label loop_until_facing_empty
 
-call action_right
+mov IN, r3 # check vision
+jez start_algo # start main algorithim when we find 0
+mov BOT_TURN_LEFT, OUT # arbitrarily left or right
+jmp loop_until_facing_empty
 
-call action_left
-
-jmp loop
+label start_algo
+mov BOT_MOVE_FORWARD, OUT
+jmp start_algo

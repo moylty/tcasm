@@ -69,7 +69,6 @@ def parse_mov_instruction(instr):
     
     if (parts[1].lower() == "in"):
         src = "IN"
-        print("poopy: " + parts[1].lower())
     if (parts[2].lower() == "out"):
         dst = "OUT"
 
