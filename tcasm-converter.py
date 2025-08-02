@@ -17,6 +17,7 @@ const s2 16
 const s3 24
 const s4 32
 const s5 40
+const s6 48
 
 const d0 0
 const d1 1
@@ -24,9 +25,17 @@ const d2 2
 const d3 3
 const d4 4
 const d5 5
+const d6 6
 
-const IN 48
-const OUT 6
+const IN 56
+const OUT 7
+
+# NOTE: As of 2/08/2025 I have strayed from how the game expects you to setup registers.
+# I have added a 7th general purpose register, and moved the IO "registers" to the previously unused decoder outputs
+# This means the in-game instruction preview tool will be inaccurate. The addition of this register is the biggest architectural
+# change I can make without significant effort or major reworking. For the time being I want to stick as closely as possible to the game's
+# intended design, as it is what the programming challenges (and the game itself) expect you to be working with. Once I beat the game I'll go full custom :)
+
 # Continuing to program...
 
 """
