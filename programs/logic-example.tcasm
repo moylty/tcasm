@@ -1,0 +1,16 @@
+# General purpose registers are r4-6.
+
+mov 10, r4
+
+label loop
+
+sub r4, 1
+mov r3, OUT
+mov r3, r4
+
+jez done
+
+jmp loop
+
+label done # loop forever
+jmp done

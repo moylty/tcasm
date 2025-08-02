@@ -1,0 +1,18 @@
+# Fibonacci sequence, starting with 0 and 1
+mov 0, r4
+mov 1, r5
+
+# outputting 0 and 1
+mov r4, OUT
+mov r5, OUT
+
+label main_loop
+
+add r4, r5 # adds r4 and r5, saves result to r3
+mov r3, OUT #output the result of this step
+
+# shift r3's number to r2, and r2's to r1
+mov r2, r4
+mov r3, r5
+
+jmp main_loop

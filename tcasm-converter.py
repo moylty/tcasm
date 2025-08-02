@@ -140,6 +140,34 @@ def implement_return(instr, call_stack):
         raise ValueError("Error: no labels defined but return is used.")
     return [call_stack[-1] + "_RETURN", "JMP"]
 
+def implement_alu(instr):
+    # Remove comment
+    instr = instr.split("#", 1)[0]
+
+    # Split by whitespace and commas, discard empty strings
+    tokens = [token for token in instr.replace(",", " ").split() if token]
+
+    lines = []
+
+    # Move operand 1 into r1
+    if (tokens[1][0] == "r"):
+        lines.append("MOV | s" + tokens[1][1] + " | d1")
+    else:
+        # if operand is an immediate value
+        lines.append(tokens[1])
+        lines.append("MOV | s0 | d1")
+    # Move operand 2 into r2
+    if (tokens[2][0] == "r"):
+        lines.append("MOV | s" + tokens[2][1] + " | d2")
+    else:
+        # if operand is an immediate value
+        lines.append(tokens[2])
+        lines.append("MOV | s0 | d2")
+    # ADD instruction (or any other ALU op)
+    lines.append(tokens[0].upper())
+
+    return lines
+
 parsed_result = []
 calls = []
 for line in lines:
@@ -147,13 +175,10 @@ for line in lines:
     # parse mov commands
     if "mov" in line.lower()[0:3]:
         parsed_result.extend(parse_mov_instruction(line))
-    # Now I need to handle jmps and returns...
     elif line and "j" in line.lower()[0]:
         parsed_result.extend(parse_jmp_instruction(line))
-    elif "add" in line.lower()[0:3]:
-        parsed_result.append("ADD")
-    elif "sub" in line.lower()[0:3]:
-        parsed_result.append("SUB")
+    elif any(op in line.lower()[0:4] for op in ("add", "sub", "or", "nand", "nor", "and")): # ALL ALU operations
+        parsed_result.extend(implement_alu(line))
     elif "call" in line.lower()[0:4]:
         parsed_result.extend(implement_call(line))
     elif "label" in line.lower()[0:5]:

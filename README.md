@@ -21,7 +21,7 @@ My version of the Overture computer has a total of 7 registers:
 
 ## Instructions
 
-This manual details the instructions present in tcasm, which is an assembly language I have created which is converted into machine code that the Overture can actually understand. That is to say, that some (many) of the instructions in here are not present in the Overture design as built-in instructions. Many of the instructions here are made up of several "bare metal" instructions when the conversion from TCASM (Turing Complete Assembly) to TCU (Turing Complete Ugly), the native machine code, takes place. 
+This manual details the instructions present in TCASM, which is an assembly language I have created which is converted into machine code that the Overture can actually understand. That is to say, that some (many) of the instructions in here are not present in the Overture design as built-in instructions. Many of the instructions here are made up of several "bare metal" instructions when the conversion from TCASM (Turing Complete Assembly) to TCU (Turing Complete Ugly), the native machine code, takes place. 
 
 ### mov
 Usage: `mov <src>, <dst>`
@@ -53,6 +53,14 @@ Conditional jumps compare the value present in `r3`, deciding to jump or not bas
 - `jnz <label>`: Jumps to the label if `r3` contains any non-zero value.
 - `jlez <label>`: Jumps to the label if `r3` contains a value less than or equal to zero.
 - `jgez <label>`: Jumps to the label if `r3` contains a value greater than or equal to zero.
+
+### Arithmetic: add, sum
+Usage: `add <operand>`
+The Add and Sum instructions adds or subtracts respectively, the operands supplied, in `r1` and `r2`, then saves the result in `r3`.
+
+### Logic: or, nand, nor, and
+Usage: `and <operand1> <operand2>`
+These logical operations automatically copy the supplied operands (registers or immediate values) to registers `r1` and `r2` and then keeps the result in `r3`.
 
 ### call
 Usage: `call <label>`
