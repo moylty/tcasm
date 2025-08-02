@@ -28,6 +28,7 @@ label loop_until_facing_empty
 mov IN, r3 # check vision
 jez start_algo # start main algorithim when we find 0
 mov BOT_TURN_LEFT, OUT # arbitrarily left or right
+
 jmp loop_until_facing_empty
 
 label start_algo
