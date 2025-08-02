@@ -54,13 +54,10 @@ Conditional jumps compare the value present in `r3`, deciding to jump or not bas
 - `jlez <label>`: Jumps to the label if `r3` contains a value less than or equal to zero.
 - `jgez <label>`: Jumps to the label if `r3` contains a value greater than or equal to zero.
 
-### Arithmetic: add, sum
-Usage: `add <operand>`
-The Add and Sum instructions adds or subtracts respectively, the operands supplied, in `r1` and `r2`, then saves the result in `r3`.
 
-### Logic: or, nand, nor, and
-Usage: `and <operand1> <operand2>`
-These logical operations automatically copy the supplied operands (registers or immediate values) to registers `r1` and `r2` and then keeps the result in `r3`.
+### Arithmetic and Logic: add, sum, or, nand, nor, and
+Usage: `op <operand1> <operand2>`
+These arithmetic and logical operations automatically copy the supplied operands (registers or immediate values) to registers `r1` and `r2` and then keeps the result in `r3`.
 
 ### call
 Usage: `call <label>`
