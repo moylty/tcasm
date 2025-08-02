@@ -1,0 +1,12 @@
+jmp forever_main_loop
+
+label some_subroutine
+mov 4, OUT
+return
+
+label forever_main_loop
+
+call some_subroutine
+mov 2, OUT
+
+jmp forever_main_loop
