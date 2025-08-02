@@ -42,7 +42,7 @@ const OUT 7
 
 # Now we convert each line of .tcasm to .tcu
 # E.g. "mov r0, r1" --> "MOV | s0 | d1"
-gp_registers = ["r0", "r1", "r2", "r3", "r4", "r5"]
+gp_registers = ["r0", "r1", "r2", "r3", "r4", "r5", "r6"]
 io_registers = ["in", "out"]
 
 def parse_mov_instruction(instr):

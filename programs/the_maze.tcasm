@@ -8,10 +8,10 @@ const BOT_SHOOT_LASER 5
 
 # IN is the tile the robot is currently looking at.
 # Values:
-# 0: Nothing
-# 1: Wall
-# 3: Door
-# 8(?): Coin 
+const SEE_NOTHING 0
+const SEE_WALL 1
+const SEE_DOOR 3
+const SEE_COIN 8
 
 
 # setup done, jumping to main
@@ -29,8 +29,11 @@ mov IN, r3 # check vision
 jez start_algo # start main algorithim when we find 0
 mov BOT_TURN_LEFT, OUT # arbitrarily left or right
 
-jmp loop_until_facing_empty
-
 label start_algo
-mov BOT_MOVE_FORWARD, OUT
+
+# r4: vision left
+# r5: vision forward
+# r6: vision right
+
+
 jmp start_algo
