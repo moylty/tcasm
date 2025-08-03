@@ -14,26 +14,81 @@ const SEE_DOOR 3
 const SEE_COIN 8
 
 
-# setup done, jumping to main
-jmp main
+# setup done
 
-
-label main
-
-# first we gotta find our initial direction
-# rotate left until the bot sees 0
-
-label loop_until_facing_empty
-
-mov IN, r3 # check vision
-jez start_algo # start main algorithim when we find 0
-mov BOT_TURN_LEFT, OUT # arbitrarily left or right
+#mov BOT_TURN_LEFT, OUT      # initial orientation
 
 label start_algo
 
-# r4: vision left
-# r5: vision forward
-# r6: vision right
+# Getting robot's vision:
+
+# Check left
+mov BOT_TURN_LEFT, OUT
+mov IN, r4
+
+# handle door if its to the left of the bot
+sub r4, SEE_DOOR
+jez found_door
+
+# Check forward
+mov BOT_TURN_RIGHT, OUT
+mov IN, r5
+
+# Handle door if its in front of the bot
+sub r5, SEE_DOOR
+jez found_door
+
+# Check right
+mov BOT_TURN_RIGHT, OUT
+mov IN, r6
+
+# handle door if its to the right of the bot
+sub r6, SEE_DOOR
+jez found_door
+
+# Reset orientation
+mov BOT_TURN_LEFT, OUT
 
 
+# Check left
+
+mov r4, r3
+jnz left_not_empty
+mov BOT_TURN_LEFT, OUT
+mov BOT_MOVE_FORWARD, OUT
 jmp start_algo
+
+label left_not_empty
+
+# Check forward
+
+
+
+mov r5, r3
+jnz forward_not_empty
+mov BOT_MOVE_FORWARD, OUT
+jmp start_algo
+
+label forward_not_empty
+
+# Check right
+
+
+
+mov r6, r3
+jnz right_not_empty
+mov BOT_TURN_RIGHT, OUT
+mov BOT_MOVE_FORWARD, OUT
+jmp start_algo
+
+label right_not_empty
+
+# Dead end, turn around
+mov BOT_TURN_RIGHT, OUT
+mov BOT_TURN_RIGHT, OUT
+jmp start_algo
+
+# Victory (tf2 sound effect free download)
+
+label found_door
+mov BOT_USE_ACTION, OUT
