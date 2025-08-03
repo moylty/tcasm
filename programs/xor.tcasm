@@ -1,0 +1,34 @@
+# We take two inputs as the operands of the XOR.
+mov IN, r4
+mov IN, r5
+
+# NOT(r4) ---(NAND)---(NAND)---- OUT
+# r5 --------^        ^
+#                     |
+# r4 --------(NAND)---^
+# NOT(r5) ---^
+
+# r0 is unused in this program so thats an extra register for us to use.
+# This is because we don't need to use immediates at any point.
+
+# r0 now contains NOT(r4)
+nand r4, r4
+mov r3, r0 
+
+# r6 now contains NOT(r5)
+nand r5, r5
+mov r3, r6
+
+# first nand gate
+nand r0, r5
+# r0 now contains NAND(NOT(r4), r5)
+mov r3, r0
+
+# second nand gate
+nand r4, r6
+# r6 now contains NAND(r4, NOT(r5))
+mov r3, r6
+
+# final nand gate
+nand r0, r6
+mov r3, OUT
